@@ -1,0 +1,9 @@
+rule "dnsmasq clean message"
+when
+  toccontains(to_string($message.message), "dnsmasq")
+then
+   let m = regex("^.+: (.+)$", to_string($message.message));
+   let clean_message = m["0"];
+  // Set a better message field without the prefix clutter.
+  set_field("message", clean_message);
+end
